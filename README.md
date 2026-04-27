@@ -229,3 +229,19 @@ sum by (endpoint) (rate(demo_http_requests_total{endpoint=~"$endpoint"}[5m]))
 La dropdown apparait en haut du dashboard et filtre dynamiquement les panels selon les endpoints selectionnes.
 
 ![alt text](assets/file_1777292848539.png)
+
+### Exercice 5 : Provisionnement et alertes unifiees
+
+**Provisionnement du dashboard et de la datasource**
+
+J'ai exporte le dashboard `demo-api` en JSON dans `grafana/provisioning/dashboards/demo-api.json`, ajoute un fichier provider `provider.yml` qui pointe Grafana vers ce dossier, et provisionne aussi la datasource Prometheus dans `grafana/provisioning/datasources/prometheus.yml`. Le dossier `grafana/provisioning` est monte dans le conteneur via le docker-compose.
+
+Apres redemarrage de Grafana, le dashboard apparait automatiquement avec le badge "Provisioned" (en lecture seule dans l'UI : il faut editer le JSON pour le modifier).
+
+![alt text](assets/file_1777293845594.png)
+
+**Alerte Grafana native**
+
+J'ai cree une regle d'alerte `HighErrorRate` dans Alerting > Alert rules avec la meme requete que l'alerte Prometheus de l'exercice 6 (ratio d'erreurs 5xx), seuil `IS ABOVE 0.05`, evaluation toutes les minutes pendant 5 minutes avant declenchement. Groupe d'evaluation : `demo-api-errors`.
+
+![alt text](assets/file_1777293874431.png)
