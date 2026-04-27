@@ -20,5 +20,13 @@ services:
       - "9100:9100"
     restart: unless-stopped
 
+  demo-api:
+    build: ../app
+    image: demo-api:1.0
+    container_name: demo-api
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
+
 volumes:
   prometheus_data:

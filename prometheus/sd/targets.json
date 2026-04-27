@@ -1,5 +1,5 @@
 [
   {
-    "targets": ["prometheus:9090","node-exporter:9100"]
+    "targets": ["prometheus:9090", "node-exporter:9100", "demo-api:8000"]
   }
 ]
