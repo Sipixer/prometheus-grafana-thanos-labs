@@ -189,3 +189,9 @@ Les quatre metriques exposees par l'exporter sont visibles dans les exercices 7,
 - `demo_http_errors_total` (counter, label `endpoint`)
 - `demo_http_requests_in_flight` (gauge)
 - `demo_http_request_duration_seconds` (histogram, label `endpoint`)
+
+## Module 2 - Grafana
+
+### Exercice 1 : Installer Grafana et se connecter
+
+J'ai ajoute un service `grafana` au docker-compose (port 3000, volume persistant), puis je me suis connecte sur http://localhost:3000 avec `admin` / `admin` et changé le mot de passe.

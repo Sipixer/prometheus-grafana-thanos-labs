@@ -38,5 +38,15 @@ services:
       - ./prometheus/alertmanager/alertmanager.yml:/etc/alertmanager/alertmanager.yml
     restart: unless-stopped
 
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana_data:/var/lib/grafana
+    restart: unless-stopped
+
 volumes:
   prometheus_data:
+  grafana_data:
