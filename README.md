@@ -56,3 +56,17 @@ Au premier lancement, j'ai mis seulement `prometheus:9090` dans `targets.json` e
 J'ai ensuite ajoute `node-exporter:9100` dans le JSON, sans recharger Prometheus. Apres quelques secondes, la nouvelle cible est apparue automatiquement dans Targets.
 
 ![alt text](assets/file_1777282919649.png)
+
+### Exercice 5 : Recording rules
+
+J'ai ajoute une mini-app Flask `demo-api` qui expose les metriques `demo_http_*` (compteurs, histogramme de latence). Elle est buildee directement par le docker-compose.
+
+J'ai cree un fichier `prometheus/rules/api_rules.yml` avec un groupe evalue toutes les 30s qui pre-calcule la metrique `job:http_requests:rate5m` (taux de requetes par job sur 5min). J'ai monte le dossier `rules/` dans le conteneur et ajoute `rule_files` dans `prometheus.yml`.
+
+Apres reload de Prometheus, j'ai verifie dans Status > Rules que le groupe `api` est bien pris en compte avec sa frequence de 30s.
+
+![alt text](assets/file_1777283703349.png)
+
+J'ai lance une boucle curl pour generer du trafic sur `/api/users` et `/api/orders`, puis interroge la nouvelle metrique `job:http_requests:rate5m` dans l'expression browser.
+
+![alt text](assets/file_1777283802673.png)
