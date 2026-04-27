@@ -215,3 +215,17 @@ J'ai cree un dashboard `demo-api` avec trois panels :
 - **Latence p95** (Time series, unite seconds) : `histogram_quantile(0.95, sum by (le)(rate(demo_http_request_duration_seconds_bucket[5m])))`
 
 ![alt text](assets/file_1777292026159.png)
+
+### Exercice 4 : Variables et templating
+
+J'ai ajoute une variable de dashboard `endpoint` (type Query, datasource Prometheus) qui liste les valeurs du label `endpoint` de la metrique `demo_http_requests_total`. Multi-value et "Include All option" actives pour pouvoir filtrer sur un, plusieurs ou tous les endpoints.
+
+J'ai ensuite modifie les 3 panels pour utiliser cette variable avec l'operateur regex (obligatoire en multi-value), par exemple :
+
+```promql
+sum by (endpoint) (rate(demo_http_requests_total{endpoint=~"$endpoint"}[5m]))
+```
+
+La dropdown apparait en haut du dashboard et filtre dynamiquement les panels selon les endpoints selectionnes.
+
+![alt text](assets/file_1777292848539.png)
