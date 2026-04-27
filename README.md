@@ -106,3 +106,39 @@ J'ai pratique les differents types de donnees PromQL dans l'expression browser, 
 **4. `scalar(sum(demo_http_requests_total))`** — scalaire : une seule valeur numerique sans labels, le total cumule de toutes les series.
 
 ![alt text](assets/file_1777284415710.png)
+
+### Exercice 8 : PromQL - agregations et jointures
+
+J'ai mis en pratique trois requetes d'agregation sur demo-api avec ma boucle de trafic active.
+
+**a) Taux de requetes total par endpoint**
+
+```promql
+sum by (endpoint) (rate(demo_http_requests_total[5m]))
+```
+
+Deux series renvoyees, une par endpoint (`/api/users`, `/api/orders`), chacune en req/s.
+
+![alt text](assets/file_1777284496395.png)
+
+**b) Ratio d'erreurs par endpoint**
+
+```promql
+sum by (endpoint) (rate(demo_http_requests_total{status=~"5.."}[5m]))
+/
+sum by (endpoint) (rate(demo_http_requests_total[5m]))
+```
+
+Le ratio se situe autour de 5% pour `/api/users` et 8% pour `/api/orders`, conformement au taux d'erreur configure dans l'app.
+
+![alt text](assets/file_1777284516806.png)
+
+**c) Top 3 des taux par instance**
+
+```promql
+topk(3, sum by (instance) (rate(demo_http_requests_total[5m])))
+```
+
+`topk()` garde les N series avec les plus grandes valeurs. Comme demo-api ne tourne qu'en une seule instance dans ce lab, une seule serie est renvoyee.
+
+![alt text](assets/file_1777284535350.png)
