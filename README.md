@@ -32,3 +32,15 @@ curl -X POST http://localhost:9090/-/reload
 La nouvelle valeur apparait dans Status > Configuration.
 
 ![alt text](assets/file_1777281996711.png)
+
+### Exercice 3 : Ajouter node_exporter et scraper les metriques systeme
+
+J'ai ajoute le service `node-exporter` au docker-compose (port 9100) et un nouveau job `node` dans `prometheus.yml` qui pointe vers `node-exporter:9100` (DNS interne du reseau Compose).
+
+Apres `docker compose up -d`, j'ai verifie dans Status > Targets que la cible `node` est UP.
+
+![alt text](assets/file_1777282443426.png)
+
+J'ai ensuite teste la metrique `node_cpu_seconds_total` dans l'expression browser pour confirmer que les metriques systeme remontent bien.
+
+![alt text](assets/file_1777282475751.png)

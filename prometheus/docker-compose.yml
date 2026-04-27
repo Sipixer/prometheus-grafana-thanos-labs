@@ -12,5 +12,12 @@ services:
       - prometheus_data:/prometheus
     restart: unless-stopped
 
+  node-exporter:
+    image: prom/node-exporter:latest
+    container_name: node-exporter
+    ports:
+      - "9100:9100"
+    restart: unless-stopped
+
 volumes:
   prometheus_data:
