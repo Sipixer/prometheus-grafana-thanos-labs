@@ -87,3 +87,22 @@ Une fois en FIRING, l'alerte est envoyee a Alertmanager et apparait dans son int
 
 ![alt text](assets/file_1777284206163.png)
 
+### Exercice 7 : PromQL - vecteurs instantanes, vecteurs de plage et scalaires
+
+J'ai pratique les differents types de donnees PromQL dans l'expression browser, avec ma boucle curl active sur demo-api.
+
+**1. `demo_http_requests_total`** — vecteur instantane : une valeur par serie au moment de l'evaluation, une ligne par combinaison `endpoint`/`status`.
+
+![alt text](assets/file_1777284333523.png)
+
+**2. `demo_http_requests_total[1m]`** — vecteur de plage : pour chaque serie, une tranche d'historique sur la derniere minute. Le mode Graph ne fonctionne pas, seul le Table affiche les echantillons avec leurs timestamps.
+
+![alt text](assets/file_1777284352974.png)
+
+**3. `rate(demo_http_requests_total[1m])`** — `rate()` prend un vecteur de plage et renvoie un vecteur instantane qui represente le taux de requetes par seconde sur la fenetre. Chaque jeu de labels (`endpoint`, `status`) correspond a une serie distincte.
+
+![alt text](assets/file_1777284399556.png)
+
+**4. `scalar(sum(demo_http_requests_total))`** — scalaire : une seule valeur numerique sans labels, le total cumule de toutes les series.
+
+![alt text](assets/file_1777284415710.png)
