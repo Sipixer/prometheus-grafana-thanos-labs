@@ -205,3 +205,13 @@ Dans Grafana, j'ai ajoute une datasource Prometheus via Connections > Data sourc
 J'ai ensuite teste la requete `up` dans Explore : une ligne par cible UP (prometheus, node-exporter, demo-api).
 
 ![alt text](assets/file_1777291374336.png)
+
+### Exercice 3 : Construire un dashboard pour demo-api
+
+J'ai cree un dashboard `demo-api` avec trois panels :
+
+- **Taux de requetes par endpoint** (Time series) : `sum by (endpoint) (rate(demo_http_requests_total[5m]))`
+- **Ratio d'erreurs** (Stat, unite Percent 0.0-1.0, seuils vert/jaune/rouge) : `sum(rate(demo_http_requests_total{status=~"5.."}[5m])) / sum(rate(demo_http_requests_total[5m]))`
+- **Latence p95** (Time series, unite seconds) : `histogram_quantile(0.95, sum by (le)(rate(demo_http_request_duration_seconds_bucket[5m])))`
+
+![alt text](assets/file_1777292026159.png)
