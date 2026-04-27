@@ -70,3 +70,20 @@ Apres reload de Prometheus, j'ai verifie dans Status > Rules que le groupe `api`
 J'ai lance une boucle curl pour generer du trafic sur `/api/users` et `/api/orders`, puis interroge la nouvelle metrique `job:http_requests:rate5m` dans l'expression browser.
 
 ![alt text](assets/file_1777283802673.png)
+
+### Exercice 6 : Regles d'alerte et Alertmanager
+
+J'ai ajoute un service `alertmanager` (port 9093) au docker-compose, avec une config minimale dans `prometheus/alertmanager/alertmanager.yml` (un receiver vide suffit pour le TP).
+
+J'ai cree le fichier `prometheus/rules/api_alerts.yml` avec une alerte `HighErrorRate` qui se declenche si le ratio d'erreurs 5xx depasse 5% pendant 2 minutes. J'ai ensuite ajoute le bloc `alerting.alertmanagers` dans `prometheus.yml` pour pointer vers `alertmanager:9093`.
+
+Avec la boucle curl active (demo-api genere ~5-8% d'erreurs naturelles), l'alerte passe en PENDING des que le seuil est franchi, puis en FIRING apres 2 minutes.
+
+![alt text](assets/file_1777284175646.png)
+
+Une fois en FIRING, l'alerte est envoyee a Alertmanager et apparait dans son interface sur http://localhost:9093.
+
+![alt text](assets/file_1777284193781.png)
+
+![alt text](assets/file_1777284206163.png)
+
