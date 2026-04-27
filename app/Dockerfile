@@ -9,4 +9,6 @@ COPY app.py .
 
 EXPOSE 8000
 
-CMD ["python", "app.py"]
+STOPSIGNAL SIGTERM
+
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "--workers", "2", "--graceful-timeout", "5", "app:app"]
