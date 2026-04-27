@@ -1,5 +1,7 @@
 # Observabilite avec Prometheus, Grafana et Thanos
 
+> Note : j'ai utilise Claude (Claude Code) comme assistant pour la mise en forme de ce README et pour structurer les commits du depot. Le travail technique (lancement des conteneurs, ecriture des configs, tests des requetes PromQL, captures d'ecran) a ete realise par mes soins.
+
 ## Module 1 - Prometheus
 
 ### Exercice 1 : Installer Prometheus et acceder a l'interface web
@@ -177,3 +179,13 @@ predict_linear(demo_http_requests_total[1h], 3600)
 `predict_linear()` fait une regression lineaire sur la fenetre passee (1h) et extrapole de 3600s dans le futur. Pratique pour des alertes capacite (ex: "le disque sera plein dans 4h").
 
 ![alt text](assets/file_1777284821415.png)
+
+### Exercice 10 : Construire un exporter personnalise et le scraper
+
+Cet exercice a ete fait en amont, des l'exercice 5, lorsque j'ai cree la mini-app Flask `demo-api` ([app/](app/)) qui expose ses propres metriques `demo_*` sur `/metrics`. Le service est buildee directement par le docker-compose (`build: ../app`) et est scrapee via le file_sd configure a l'exercice 4.
+
+Les quatre metriques exposees par l'exporter sont visibles dans les exercices 7, 8 et 9 :
+- `demo_http_requests_total` (counter, labels `endpoint` et `status`)
+- `demo_http_errors_total` (counter, label `endpoint`)
+- `demo_http_requests_in_flight` (gauge)
+- `demo_http_request_duration_seconds` (histogram, label `endpoint`)
