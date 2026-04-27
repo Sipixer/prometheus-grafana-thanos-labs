@@ -9,6 +9,7 @@ services:
       - "9090:9090"
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./sd:/etc/prometheus/sd
       - prometheus_data:/prometheus
     restart: unless-stopped
 

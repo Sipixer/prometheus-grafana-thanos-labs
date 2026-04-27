@@ -44,3 +44,15 @@ Apres `docker compose up -d`, j'ai verifie dans Status > Targets que la cible `n
 J'ai ensuite teste la metrique `node_cpu_seconds_total` dans l'expression browser pour confirmer que les metriques systeme remontent bien.
 
 ![alt text](assets/file_1777282475751.png)
+
+### Exercice 4 : Decouverte de service par fichier (file_sd)
+
+J'ai remplace les `static_configs` par une decouverte dynamique via un fichier JSON. Le dossier `prometheus/sd/` est monte dans le conteneur sur `/etc/prometheus/sd`, et le job utilise `file_sd_configs` avec un `refresh_interval: 5s` pour voir les changements rapidement.
+
+Au premier lancement, j'ai mis seulement `prometheus:9090` dans `targets.json` et verifie dans Status > Targets qu'une seule cible apparaissait.
+
+![alt text](assets/file_1777282905106.png)
+
+J'ai ensuite ajoute `node-exporter:9100` dans le JSON, sans recharger Prometheus. Apres quelques secondes, la nouvelle cible est apparue automatiquement dans Targets.
+
+![alt text](assets/file_1777282919649.png)

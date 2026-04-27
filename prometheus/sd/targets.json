@@ -1,0 +1,5 @@
+[
+  {
+    "targets": ["prometheus:9090","node-exporter:9100"]
+  }
+]
