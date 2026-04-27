@@ -142,3 +142,38 @@ topk(3, sum by (instance) (rate(demo_http_requests_total[5m])))
 `topk()` garde les N series avec les plus grandes valeurs. Comme demo-api ne tourne qu'en une seule instance dans ce lab, une seule serie est renvoyee.
 
 ![alt text](assets/file_1777284535350.png)
+
+### Exercice 9 : PromQL avance - histogrammes et quantiles
+
+**1. Inspecter les buckets de l'histogramme**
+
+```promql
+demo_http_request_duration_seconds_bucket
+```
+
+Une serie par bucket (`le="0.01"`, `le="0.025"`, ..., `le="+Inf"`), accompagnee des metriques `_count` et `_sum` qui completent l'histogramme.
+
+![alt text](assets/file_1777284747474.png)
+
+**2. Latence p95 sur /api/orders (sur 5min)**
+
+```promql
+histogram_quantile(
+  0.95,
+  sum by (le, endpoint) (rate(demo_http_request_duration_seconds_bucket{endpoint="/api/orders"}[5m]))
+)
+```
+
+Le resultat est en secondes : la duree sous laquelle 95% des requetes terminent. Vu que l'app simule un delai aleatoire entre 0.01 et 0.4s, le p95 tourne autour de ~0.38s.
+
+![alt text](assets/file_1777284800768.png)
+
+**3. Prediction du nombre de requetes dans 1h**
+
+```promql
+predict_linear(demo_http_requests_total[1h], 3600)
+```
+
+`predict_linear()` fait une regression lineaire sur la fenetre passee (1h) et extrapole de 3600s dans le futur. Pratique pour des alertes capacite (ex: "le disque sera plein dans 4h").
+
+![alt text](assets/file_1777284821415.png)
