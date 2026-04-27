@@ -195,3 +195,13 @@ Les quatre metriques exposees par l'exporter sont visibles dans les exercices 7,
 ### Exercice 1 : Installer Grafana et se connecter
 
 J'ai ajoute un service `grafana` au docker-compose (port 3000, volume persistant), puis je me suis connecte sur http://localhost:3000 avec `admin` / `admin` et changé le mot de passe.
+
+### Exercice 2 : Ajouter Prometheus comme source de donnees
+
+Dans Grafana, j'ai ajoute une datasource Prometheus via Connections > Data sources avec l'URL `http://prometheus:9090` (DNS interne du reseau Compose, pas `localhost`). Le `Save & test` confirme la connexion.
+
+![alt text](assets/file_1777291352917.png)
+
+J'ai ensuite teste la requete `up` dans Explore : une ligne par cible UP (prometheus, node-exporter, demo-api).
+
+![alt text](assets/file_1777291374336.png)
