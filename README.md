@@ -2,8 +2,6 @@
 
 > Note : j'ai utilise Claude (Claude Code) comme assistant pour la mise en forme de ce README et pour structurer les commits du depot. Le travail technique (lancement des conteneurs, ecriture des configs, tests des requetes PromQL, captures d'ecran) a ete realise par mes soins.
 
-> Le TP **Grafana Alloy & OpenTelemetry** (collecteur OTel vers Mimir, Loki et Tempo) est sur la branche [`labs-alloy`](https://github.com/Sipixer/prometheus-grafana-thanos-labs/tree/labs-alloy), avec son propre README.
-
 ## Module 1 - Prometheus
 
 ### Exercice 1 : Installer Prometheus et acceder a l'interface web
